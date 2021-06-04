@@ -35,23 +35,24 @@ public class Main extends Application {
             in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             out = new PrintWriter(soc.getOutputStream(), true);
 
+            String name = null;
             // Username Validation
             while (true) {
                 String str = in.readLine();
                 if (str.equals("NAME_REQUIRED")) {
-                    String name = JOptionPane.showInputDialog(chatWindow,
+                    name = JOptionPane.showInputDialog(chatWindow,
                             "Enter a unique name:",
                             "Name Required!",
                             JOptionPane.PLAIN_MESSAGE);
                     out.println(name);
                 } else if (str.equals("NAME_ALREADY_EXIST")) {
-                    String name = JOptionPane.showInputDialog(chatWindow,
+                    name = JOptionPane.showInputDialog(chatWindow,
                             "Try another name:",
                             "Name Already Exists!!",
                             JOptionPane.WARNING_MESSAGE);
                     out.println(name);
                 } else if (str.startsWith("NAME_ACCEPTED")) {
-                    ViewManager manager = new ViewManager(in, out);
+                    ViewManager manager = new ViewManager(in, out, name);
                     primaryStage = manager.getMainStage();
                     primaryStage.show();
                     break;

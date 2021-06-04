@@ -75,8 +75,13 @@ class ConversationHandler extends Thread {
 
                 if (message == null)
                     return;
-                for (PrintWriter writer : GameServer.printWriters)              // For all writer in printWriter
-                    writer.println(name + ": " + message);
+                if (message.startsWith("Waiting")) {
+                    for (PrintWriter writer : GameServer.printWriters)
+                        writer.println(GameServer.userName.size());
+                    System.out.println(GameServer.userName.size());
+                }
+//                for (PrintWriter writer : GameServer.printWriters)              // For all writer in printWriter
+//                    writer.println(name + ": " + message);
             }
         } catch (Exception e) {
             System.out.println(e);

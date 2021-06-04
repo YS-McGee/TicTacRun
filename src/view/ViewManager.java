@@ -40,8 +40,16 @@ public class ViewManager {
     List<ShipPicker> shipList;
     private SHIP choosenShip;
 
+    static BufferedReader in;
+    static PrintWriter out;
+    String name;
 
-    public ViewManager(BufferedReader in, PrintWriter out) {
+    public ViewManager(BufferedReader in, PrintWriter out, String s) {
+
+        this.in = in;
+        this.out = out;
+        name = s;
+
         menuButtons = new ArrayList<>();
         mainScene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage = new Stage();
@@ -125,8 +133,7 @@ public class ViewManager {
                 if (choosenShip != null) {
                     WaitingRoomManager waitingRoomManager = new WaitingRoomManager();
                     waitingRoomManager.createWaitingRoom(mainStage);
-//                    GameViewManager gameViewManager = new GameViewManager();
-//                    gameViewManager.createNewGame(mainStage, choosenShip);
+                    waitingRoomManager.waitForGameBegin(name, in, out);
                 }
             }
         });

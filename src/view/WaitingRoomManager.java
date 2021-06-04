@@ -11,27 +11,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.MatchPairHandler;
 
-import java.io.File;
+import java.io.*;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class WaitingRoomManager {
 
-    private AnchorPane gamePane, animationPane;
-    //private Pane gamePane, animationPane;
+    private AnchorPane gamePane;
     private Scene gameScene;
     private Scene animationScene;
-    private Stage gameStage;
+    private Stage gameStage, menuStage;
 
     private StackPane rootPane;
 
     private static final int GAME_WIDTH = 1024;
     private static final int GAME_HEIGHT = 640;
 
-    private Stage menuStage;
-
-    private GridPane gridPane1;
-    private GridPane gridPane2;
     private final static String BACKGROUND_IMAGE = "view/resources/waiting_room_background.png";
+
     private final static String BD0 = "view/resources/animation/big_demon_0.png";
     private final static String BD1 = "view/resources/animation/big_demon_1.png";
     private final static String BD2 = "view/resources/animation/big_demon_2.png";
@@ -61,6 +62,15 @@ public class WaitingRoomManager {
 
     private Group group;
 
+    ArrayList<Integer> clientList = new ArrayList<Integer>(Collections.nCopies(4, 0));
+
+    static BufferedReader in;
+    static PrintWriter out;
+    ObjectOutputStream oos;
+    ObjectInputStream  ois;
+
+    private String name = null;
+
     public WaitingRoomManager() {
 
         group = new Group(big_demon0);
@@ -83,7 +93,15 @@ public class WaitingRoomManager {
 //        createKeyListener();
     }
 
+    public void waitForGameBegin(String s, BufferedReader in, PrintWriter out) {
+        name = s;
+
+        MatchPairHandler matchPairHandler = new MatchPairHandler(in, out, name, gameStage, gamePane);
+        matchPairHandler.start();
+
+    }
     private void createPlayerAnimation() {
+
     }
     private void createBackground() {
         Image backgroundImage = new Image(BACKGROUND_IMAGE, 1024, 640, true, true);
@@ -98,17 +116,12 @@ public class WaitingRoomManager {
         createBackground();
         gamePane.getChildren().add(group);
         gameStage.show();
+
     }
     private void initializeStage() {
         gamePane = new AnchorPane();
         gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
         gameStage = new Stage();
         gameStage.setScene(gameScene);
-
-//        gamePane = new AnchorPane();
-//        gameScene = new Scene(group, GAME_WIDTH, GAME_HEIGHT);
-//        gameStage = new Stage();
-//        gameStage.setScene(gameScene);
-
     }
 }
