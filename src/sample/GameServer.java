@@ -50,14 +50,22 @@ class ConversationHandler extends Thread {
                 name = in.readLine();
                 if (name == null)
                     return;
+                if (GameServer.userName.size() >= 4) {
+                    out.println("MAX_CLIENT");
+                    socket.close();
+                    return;
+                }
                 if (!GameServer.userName.contains(name)) {
                     GameServer.userName.add(name);
+                    System.out.println(GameServer.userName.size());
                     break;
                 }
                 ++count;
             }
+
             out.println("NAME_ACCEPTED"+name);
             GameServer.printWriters.add(out);
+
             for(String name : GameServer.userName) {
                 System.out.println(name);
             }

@@ -50,13 +50,18 @@ public class Main extends Application {
                             "Name Already Exists!!",
                             JOptionPane.WARNING_MESSAGE);
                     out.println(name);
-                } else if (str.startsWith("NAME_ACCEPTED"))
+                } else if (str.startsWith("NAME_ACCEPTED")) {
+                    ViewManager manager = new ViewManager(in, out);
+                    primaryStage = manager.getMainStage();
+                    primaryStage.show();
                     break;
+                }
+                else if(str.equals("MAX_CLIENT")) {
+                    System.out.println("MAX_CLIENT");
+                    soc.close();
+                    return;
+                }
             }
-
-            ViewManager manager = new ViewManager(in, out);
-            primaryStage = manager.getMainStage();
-            primaryStage.show();
         } catch(Exception e) {
             e.printStackTrace();
         }
