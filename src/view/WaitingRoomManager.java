@@ -289,15 +289,20 @@ public class WaitingRoomManager extends Thread {
                         animation2 = true;
                         animation3 = true;
                         animation4 = true;
+                        GameBegin();
                     }
                 }
             });
         }
     }
-    public void waitForGameBegin() {
-        //createPlayerAnimation();
+    public void GameBegin() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        //MatchPairHandler matchPairHandler = new MatchPairHandler(in, out, name);
+        TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out);
 
     }
     private void createPlayerAnimation2() {

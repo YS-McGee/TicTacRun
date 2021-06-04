@@ -133,7 +133,6 @@ public class ViewManager {
                 if (choosenShip != null) {
                     WaitingRoomManager waitingRoomManager = new WaitingRoomManager(in, out);
                     waitingRoomManager.createWaitingRoom(mainStage);
-                    waitingRoomManager.waitForGameBegin();
                 }
             }
         });
