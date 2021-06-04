@@ -31,7 +31,8 @@ public class Main extends Application {
                                                                 null, null,
                                                     "localhost");
             // Create socket and I/O
-            Socket soc = new Socket(ipAddress, 8888);
+            //Socket soc = new Socket(ipAddress, 8888);
+            Socket soc = new Socket("localhost", 8888);
             in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             out = new PrintWriter(soc.getOutputStream(), true);
 

@@ -131,9 +131,9 @@ public class ViewManager {
             @Override
             public void handle(ActionEvent event) {
                 if (choosenShip != null) {
-                    WaitingRoomManager waitingRoomManager = new WaitingRoomManager();
+                    WaitingRoomManager waitingRoomManager = new WaitingRoomManager(in, out);
                     waitingRoomManager.createWaitingRoom(mainStage);
-                    waitingRoomManager.waitForGameBegin(name, in, out);
+                    waitingRoomManager.waitForGameBegin();
                 }
             }
         });

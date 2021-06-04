@@ -4,10 +4,13 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameServer {
     static ArrayList<String> userName = new ArrayList<String>();
     static ArrayList<PrintWriter> printWriters = new ArrayList<PrintWriter>();      // Send msg to all client
+//    static ArrayList<ObjectOutputStream> objectOutputStreams = new ArrayList<ObjectOutputStream>();
+//    static ArrayList<Integer> isReady = new ArrayList<Integer>(Collections.nCopies(4, 0));
 
     public static void main(String[] args) throws Exception{
         System.out.println("Waiting for clients...");
@@ -27,6 +30,9 @@ class ConversationHandler extends Thread {
     Socket socket;
     BufferedReader in;
     PrintWriter out;
+//    ObjectOutputStream objectOutputStream;
+//    ObjectInputStream objectInputStream;
+
     String name;
 
     public ConversationHandler(Socket socket) throws IOException {
@@ -38,6 +44,8 @@ class ConversationHandler extends Thread {
 
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
+//            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+//            objectInputStream = new ObjectInputStream(socket.getInputStream());
 
             int count = 0;
             while (true) {
@@ -57,7 +65,7 @@ class ConversationHandler extends Thread {
                 }
                 if (!GameServer.userName.contains(name)) {
                     GameServer.userName.add(name);
-                    System.out.println(GameServer.userName.size());
+                    //System.out.println(GameServer.userName.size());
                     break;
                 }
                 ++count;
@@ -65,20 +73,23 @@ class ConversationHandler extends Thread {
 
             out.println("NAME_ACCEPTED"+name);
             GameServer.printWriters.add(out);
+            //GameServer.objectOutputStreams.add(objectOutputStream);
 
-            for(String name : GameServer.userName) {
-                System.out.println(name);
-            }
+//            for(String name : GameServer.userName) {
+//                System.out.println(name);
+//            }
 
             while (true) {
                 String message = in.readLine();
 
                 if (message == null)
                     return;
-                if (message.startsWith("Waiting")) {
+                if (message.startsWith("READY")) {
                     for (PrintWriter writer : GameServer.printWriters)
                         writer.println(GameServer.userName.size());
-                    System.out.println(GameServer.userName.size());
+//                    for (ObjectOutputStream objectOutputStream : GameServer.objectOutputStreams)
+//                        objectOutputStream.writeObject(GameServer.isReady);
+                    System.out.println(GameServer.userName.size() + " " + name);
                 }
 //                for (PrintWriter writer : GameServer.printWriters)              // For all writer in printWriter
 //                    writer.println(name + ": " + message);
