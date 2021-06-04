@@ -11,13 +11,16 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.*;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewManager {
 
-    private static final int HEIGHT = 768;
     private static final int WIDTH = 1024;
+    private static final int HEIGHT = 768;
 
     private AnchorPane mainPane = new AnchorPane();
     private Scene mainScene;
@@ -38,7 +41,7 @@ public class ViewManager {
     private SHIP choosenShip;
 
 
-    public ViewManager() {
+    public ViewManager(BufferedReader in, PrintWriter out) {
         menuButtons = new ArrayList<>();
         mainScene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage = new Stage();
@@ -82,7 +85,7 @@ public class ViewManager {
 
         shipChooserScene.getPane().getChildren().add(chooseShipLabel);
         shipChooserScene.getPane().getChildren().add(createShipToChoose());
-        //shipChooserScene.getPane().getChildren().add(createButtonToStart());
+        shipChooserScene.getPane().getChildren().add(createButtonToStart());
     }
     private HBox createShipToChoose() {
         HBox box = new HBox();
@@ -111,23 +114,26 @@ public class ViewManager {
 
         return box;
     }
-//    private SpaceRunnerButton createButtonToStart() {
-//        SpaceRunnerButton startButton = new SpaceRunnerButton("START");
-//        startButton.setLayoutX(350);
-//        startButton.setLayoutY(300);
-//
-//        startButton.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                if (choosenShip != null) {
+    private SpaceRunnerButton createButtonToStart() {
+        SpaceRunnerButton startButton = new SpaceRunnerButton("START");
+        startButton.setLayoutX(350);
+        startButton.setLayoutY(300);
+
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (choosenShip != null) {
+                    WaitingRoomManager waitingRoomManager = new WaitingRoomManager();
+                    waitingRoomManager.createWaitingRoom(mainStage);
 //                    GameViewManager gameViewManager = new GameViewManager();
 //                    gameViewManager.createNewGame(mainStage, choosenShip);
-//                }
-//            }
-//        });
-//
-//        return startButton;
-//    }
+                }
+            }
+        });
+        // Set to go to waiting room
+
+        return startButton;
+    }
     private void addMenuButton(SpaceRunnerButton button) {
         button.setLayoutX(MENU_BUTTON_START_X);
         button.setLayoutY(MENU_BUTTON_START_Y + menuButtons.size() * 100);
