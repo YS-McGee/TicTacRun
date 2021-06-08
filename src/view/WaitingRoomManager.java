@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class WaitingRoomManager extends Thread {
+public class WaitingRoomManager extends Thread{
 
     private Thread thread;
 
@@ -240,6 +240,7 @@ public class WaitingRoomManager extends Thread {
 
         thread = new Thread(this);
         thread.start();
+
 //        createKeyListener();
     }
 
@@ -253,15 +254,8 @@ public class WaitingRoomManager extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            try {
-//                isReady = (ArrayList)ois.readObject();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
+
             System.out.println(s);
-            //System.out.println(isReady);
 
             String finalS = s;
             Platform.runLater(new Runnable() {
@@ -289,31 +283,43 @@ public class WaitingRoomManager extends Thread {
                         animation2 = true;
                         animation3 = true;
                         animation4 = true;
-                        GameBegin();
+                        // If Player num == 4, begin the match after 2 sec
+//                        try {
+//                            Thread.sleep(2000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+                        // GameBegin();
+                        //TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out, gameStage);
+                        //ticTacToeManager.createBackground(gameStage);
                     }
                 }
             });
         }
     }
     public void GameBegin() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out);
+//        TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out);
+//        ticTacToeManager.createBackground(gameStage);
 
     }
+
     private void createPlayerAnimation2() {
+
         gamePane.getChildren().add(bigZombieGroup);
+
+        //TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out, gameStage);
     }
     private void createPlayerAnimation3() {
         gamePane.getChildren().add(ogreGroup);
     }
     private void createPlayerAnimation4() {
+
         gamePane.getChildren().add(lizardGroup);
+
+        //TicTacToeManager ticTacToeManager = new TicTacToeManager(in, out, gameStage);
     }
+
     private void createBackground() {
         Image backgroundImage = new Image(BACKGROUND_IMAGE, 1024, 640, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage,
@@ -335,43 +341,4 @@ public class WaitingRoomManager extends Thread {
         gameStage = new Stage();
         gameStage.setScene(gameScene);
     }
-
-
-
-//    public class MatchPairHandler {
-//
-//        BufferedReader in;
-//        PrintWriter out;
-//
-//        String name, numString;
-//        int currentNum = 1, rxNum;
-//
-//        public MatchPairHandler(BufferedReader in, PrintWriter out, String name) {
-//            this.in = in;
-//            this.out = out;
-//            this.name = name;
-//        }
-//
-//        out.println("Waiting"+name);
-//
-//        try {
-//            while (true) {
-//                numString = in.readLine();
-//
-//                if (numString == null)
-//                    return;
-//                rxNum = Integer.parseInt(numString);
-//                //System.out.println(rxNum);
-////                for (int i = currentNum; i <= rxNum; ++i) {
-////
-////                }
-//                //gamePane.getChildren().add(bigZombieGroup);
-//                synchronized (waitingRoomManager) {
-//                    waitingRoomManager.createPlayerAnimation();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
